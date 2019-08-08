@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apad_phase2_app',
+    # 'apad_phase2_app.apps.myAppNameConfig'
+    # 'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [

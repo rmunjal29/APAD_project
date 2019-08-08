@@ -17,12 +17,30 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from user import views as main_views
+from psevents import views as main_views
+from django.conf import settings
+
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-    url(r'^$', main_views.home, name='home'),
+    path('', include('psevents.urls')),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
     url(r'^signup/$', main_views.signup, name='signup'),
+    url(r'^$', main_views.home, name='home'),
+    path('list/', main_views.venue_list_view, name='venue-list'),
+    path('create/', main_views.venue_create_view, name='venue-create'),
+    path('<int:id>/update/', main_views.venue_update_view, name='venue-update'),
+    path('<int:id>/delete/', main_views.venue_delete_view, name='venue-delete'),
+    path('event-cat-create/', main_views.event_cat_create_view, name='event-cat'),
+    path('sports-create/', main_views.sport_create_view, name='sports-create'),
+    path('event-create/', main_views.event_create_view, name='event-create')
+
 ]
+
+
+if settings.DEBUG:
+    # test mode
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -226,59 +226,65 @@ def new_venue(venue_details):
 
 
 # Function to verify if the user is registered already or not when he tries to create an event
-def email_verify(email):
-    db = get_db_connection()
-    cursor = db.cursor()
-
-    findEmail = '''SELECT email_id FROM user where email_id = ?'''
-    cursor.execute(findEmail, (email,))
-
-    if cursor.fetchall():
-        return email
-    else:
-        print("You can't create an event yet. Create an account first")
-        inputs = user_input_form()
-        new_user(inputs)
-        return inputs[0]
+# def email_verify(email):
+#     db = get_db_connection()
+#     cursor = db.cursor()
+#
+#     findEmail = '''SELECT email_id FROM user where email_id = ?'''
+#     cursor.execute(findEmail, (email,))
+#
+#     if cursor.fetchall():
+#         return email
+#     else:
+#         print("You can't create an event yet. Create an account first")
+#         inputs = user_input_form()
+#         new_user(inputs)
+#         return inputs[0]
 
 
 # Function to show the event categories to choose from - till now we have 3 categories: Play/Watch/Workshop
-# def fetch_event_cat(cursor):
-#     event_cat_query = '''SELECT event_category_name FROM event_category'''
-#     cursor.execute(event_cat_query)
-#     event_cat1 = cursor.fetchall()
-#     event_cat = []
-#     for i in range(len(event_cat1)):
-#         event_cat.append(event_cat1[i][0])
-#
-#     print("Please select a category from the following: ")
-#     for i in range(len(event_cat)):
-#         print(str(i) +":" + event_cat[i])
-#
-#
+def fetch_event_cat():
+    db = get_db_connection()
+    cursor = db.cursor()
+    event_cat_query = '''SELECT event_category_name FROM event_category'''
+    cursor.execute(event_cat_query)
+    event_cat1 = cursor.fetchall()
+    event_cat = []
+    for i in range(len(event_cat1)):
+        event_cat.append((event_cat1[i][0], event_cat1[i][0]))
+    return event_cat
+    # print("Please select a category from the following: ")
+    # for i in range(len(event_cat)):
+    #     print(str(i) +":" + event_cat[i])
+
 # # Function to fetch all the venues to choose from and display it to the user before taking the input
-# def fetch_venue(cursor):
-#     venue_query = '''SELECT venue_name FROM venue'''
-#     cursor.execute(venue_query)
-#     venues1 = cursor.fetchall()
-#     venues = []
-#     for i in range(len(venues1)):
-#         venues.append(venues1[i][0])
-#
+def fetch_venue():
+    db = get_db_connection()
+    cursor = db.cursor()
+    venue_query = '''SELECT venue_name FROM venue'''
+    cursor.execute(venue_query)
+    venues1 = cursor.fetchall()
+    venues = []
+    for i in range(len(venues1)):
+        venues.append((venues1[i][0], venues1[i][0]))
+    return venues
+
 #     print("Please select a venue from the following: ")
 #     for i in range(len(venues)):
 #         print(str(i) +":" + venues[i])
 #     return venues
 #
 # # Function to fetch all the sports to choose from and display it to the user before taking the input
-# def fetch_sport(cursor):
-#     sport_query = '''SELECT sport_name FROM sports_cat'''
-#     cursor.execute(sport_query)
-#     sports1 = cursor.fetchall()
-#
-#     sports = []
-#     for i in range(len(sports1)):
-#         sports.append(sports1[i][0])
+def fetch_sport():
+    db = get_db_connection()
+    cursor = db.cursor()
+    sport_query = '''SELECT sport_name FROM sports_cat'''
+    cursor.execute(sport_query)
+    sports1 = cursor.fetchall()
+    sports = []
+    for i in range(len(sports1)):
+        sports.append((sports1[i][0], sports1[i][0]))
+    return sports
 #
 #     print("Please select a sport from the following: ")
 #     for i in range(len(sports)):
@@ -286,29 +292,48 @@ def email_verify(email):
 #     return sports
 #
 #
-# # Function to create a new event using the outputs of event_create_inputs(db) function
-# def new_event(db,inputs):
-#
-#     cursor = db.cursor()
-#
-#     if inputs[9] == "create":
-#
-#         host_insert_flag = '''INSERT INTO events(event_cat_id,venue_id,event_name, date, start_time,end_time,
-#                                               user_id, host_flag, member_flag, sports_cat_id, event_desc, capacity_avail)
-#                        VALUES(?,?,?,?,?,?,?,?,?,?,?,?)'''
-#
-#
-#         cursor.execute(host_insert_flag, (inputs[7],inputs[8],inputs[1],inputs[2],inputs[3],inputs[4],inputs[0],1,0,inputs[10],inputs[5], inputs[6]))
-#
-#         db.commit()
-#
-#         # -1 the count of games_available count in venue table
-#
-#         update_game_avail_ct  = '''UPDATE venue SET games_available_count = ? WHERE venue_id = ?'''
-#         cursor.execute(update_game_avail_ct,(inputs[11]-1,inputs[8]))
-#         db.commit()
-#         print("Event created successfully")
-#
+# Function to create a new event using the outputs of event_create_inputs(db) function
+def new_event(new_event_details):
+    db = get_db_connection()
+    cursor = db.cursor()
+
+    # Get the Event cat id from the database
+    event_cat_id_query = '''SELECT event_cat_id FROM event_category where event_category_name = ?'''
+    cursor.execute(event_cat_id_query, (new_event_details[2],))
+    event_cat_id = cursor.fetchone()[0]
+
+    sports_cat_id_query = '''SELECT sports_cat_id FROM sports_cat where sport_name = ?'''
+    cursor.execute(sports_cat_id_query, (new_event_details[3],))
+    sports_cat_id = cursor.fetchone()[0]
+
+    # Get the venue id from the database
+    venue_id_query = '''SELECT venue_id FROM venue where venue_name = ?'''
+    cursor.execute(venue_id_query, (new_event_details[4],))
+    venue_id = cursor.fetchone()[0]
+
+    # Get the user_id from the database
+    user_id_query = '''SELECT user_id FROM user where email_id = ?'''
+    cursor.execute(user_id_query, (new_event_details[0],))
+    user_id = cursor.fetchone()[0]
+
+    host_insert_flag = '''INSERT INTO events(event_cat_id,venue_id,event_name, date, start_time,end_time,
+                                              user_id, host_flag, member_flag, sports_cat_id, event_desc, capacity_avail)
+                       VALUES(?,?,?,?,?,?,?,?,?,?,?,?)'''
+
+
+    cursor.execute(host_insert_flag, (event_cat_id,
+                                      venue_id,new_event_details[1],new_event_details[5],
+                                      new_event_details[6],new_event_details[7],user_id,1,0,sports_cat_id,new_event_details[8], new_event_details[9]))
+
+    db.commit()
+    return new_event_details
+
+        # -1 the count of games_available count in venue table
+
+        # update_game_avail_ct  = '''UPDATE venue SET games_available_count = ? WHERE venue_id = ?'''
+        # cursor.execute(update_game_avail_ct,(inputs[11]-1,inputs[8]))
+        # db.commit()
+
 # # Function to take inputs from the user or admin to create a new event
 # def event_create_inputs(db):
 #

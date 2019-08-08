@@ -22,3 +22,19 @@ def update_user_profile(sender, instance, created, **kwargs):
 	if created:
 		user_profile.objects.create(user=instance)
 	instance.profile.save()
+
+
+class add_venue(models.Model):
+	# venue_id = forms.CharField(max_length=20)
+	venue_name = models.CharField(max_length=100)
+	address = models.CharField(max_length=100)
+	zip_code = models.CharField(max_length=100)
+	contact_number = models.CharField(max_length=100)
+	description = models.CharField(max_length=100, null=True)
+	open_time = models.CharField(max_length=100)
+	close_time = models.CharField(max_length=100)
+	games_total_count = models.CharField(max_length=100)
+	games_available_count = models.CharField(max_length=100)
+
+	def get_absolute_url(self):
+		return reverse("add_venue:venue-detail", kwargs={"id": self.id})

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<form action='.' method='POST'>{% csrf_token %}
+    {{ cat.as_p }}
+
+	<input type='submit' value='Add-Event-Category' />
+
+</form>
+
+
+
+
+{% endblock %}
