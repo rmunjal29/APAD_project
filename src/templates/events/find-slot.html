@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% if flag == 1 %}
+<form action='.' method='POST'>{% csrf_token %}
+    {{ slots.as_p }}
+
+	<input type='submit' value='Find-slots' />
+
+</form>
+{% else %}
+
+<table align="center" style="width: 50%;">
+			<thead>
+				<tr>
+					<th>Available Slots</th>
+					<th>Instances Left</th>
+				</tr>
+			</thead>	
+			<tbody>
+			{% for key,value in unfill_slots.items %}
+			<tr>
+				<td>{{ key.0 }} - {{key.1}}</td>
+				<td>{{ value}}</td>
+			</tr>	
+			{% endfor %}
+
+			{% for key,value in fill_slots.items %}
+			<tr>
+				<td>{{ key.0 }} - {{key.1}}</td>
+				<td>{{ value}}</td>
+			</tr>	
+			{% endfor %}
+			</tbody>
+			
+</table>	
+
+{% endif %}
+
+{% endblock %}

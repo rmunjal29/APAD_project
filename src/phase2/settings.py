@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles'
-    
+
 
 ]
 
@@ -100,7 +100,7 @@ if os.getenv('GAE_APPLICATION', None):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': '/cloudsql/apad-project-247820:us-central1:psevents',
+            'HOST': '/cloudsql/psevents:us-central1:psevents',
             'USER': 'root',
             'PASSWORD': 'prajval123',
             'NAME': 'psevents',

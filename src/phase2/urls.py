@@ -31,10 +31,12 @@ urlpatterns = [
     path('list/', main_views.venue_list_view, name='venue-list'),
     path('create/', main_views.venue_create_view, name='venue-create'),
     path('<int:id>/update/', main_views.venue_update_view, name='venue-update'),
-    path('<int:id>/delete/', main_views.venue_delete_view, name='venue-delete'),
+    path('<int:id>/delete/', main_views.venue_delete_view, name='venue-delete'),    
     path('event-cat-create/', main_views.event_cat_create_view, name='event-cat'),
     path('sports-create/', main_views.sport_create_view, name='sports-create'),
-    path('event-create/', main_views.event_create_view, name='event-create')
+    path('event-create/', main_views.event_create_view, name='event-create'),
+    path('slots/', main_views.slot_view, name='find-slot')
+
 
 ]
 

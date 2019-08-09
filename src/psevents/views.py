@@ -4,9 +4,12 @@ from django.contrib import messages
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import authenticate
 from .forms import *
 from .models import *
+from .project1 import *
+
 
 
 @login_required
@@ -28,7 +31,7 @@ def signup(request):
 			user.save()
 			raw_password = form.cleaned_data.get('password1')
 			user = authenticate(username=user.username, password=raw_password)
-			login(request, user)
+			auth_login(request,user)
 			return redirect('home')
 	else:
 		form = UserForm()
@@ -167,5 +170,41 @@ def event_create_view(request):
 		return redirect('login')
 
 
+def slot_view(request):
+	if request.user.is_authenticated:
+		part1={}
+		part2={}
+		form = FindSlotForm(request.POST or None)
+		if form.is_valid():
+			venue = form.cleaned_data.get('venue')
+			date = form.cleaned_data.get('event_date')	
+			# print(venue.venue_name, date)
+			venue_time = add_venue.objects.filter(venue_name=venue.venue_name).values('open_time','close_time')
+			games_count = add_venue.objects.filter(venue_name=venue.venue_name).values('games_total_count')
+			event_time = add_new_event.objects.filter(venue__venue_name__contains=venue.venue_name, event_date=date).values('start_time','end_time')
 
+			# print(venue_time)
+			# print(event_time)
+			# print(event_times)
+			# print(games_count[0]["games_total_count"])
 
+			part1, part2 = find_booked_slots(venue.venue_name, date, venue_time, games_count, event_time)
+
+			# find_booked_slots(venue, date, venue_time, games_count, event_time)
+			# find_booked_slots()	
+			flag=0
+
+		else:
+			flag=1
+
+		context={'slots': form,
+		'unfill_slots': part1,
+		'fill_slots': part2,
+		'flag' : flag
+		}
+		return render(request, "events/find-slot.html", context)
+
+	else:
+		# raise ValidationError("You are not authorized to add a venue (Admin only activity)") 
+		messages.info(request, 'You are not logged in. Please login first to view the details of venues')
+		return redirect('login')	

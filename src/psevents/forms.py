@@ -118,3 +118,20 @@ class CreateEventForm(forms.ModelForm):
 	class Meta:
 		model = add_new_event
 		fields = ('event_name', 'event_category', 'sport', 'venue', 'event_date', 'start_time', 'end_time', 'event_desc', 'capacity_avail')
+
+
+
+class FindSlotForm(forms.Form):
+	venue = forms.ModelChoiceField(queryset=add_venue.objects.all(), empty_label="(Nothing)")
+
+	def __init__(self, *args, **kwargs):
+		super(FindSlotForm, self).__init__(*args, **kwargs)
+		queryset = self.fields['venue'].queryset
+		choices = [(poll.pk, poll.venue_name) for poll in queryset]
+		self.fields['venue'].choices = choices
+
+	event_date = forms.CharField(label='Please Enter the date in yyyy-mm-dd format', max_length=15)
+	
+	class Meta:	
+		fields = ('venue', 'event_date')
+
