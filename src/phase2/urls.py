@@ -35,7 +35,10 @@ urlpatterns = [
     path('event-cat-create/', main_views.event_cat_create_view, name='event-cat'),
     path('sports-create/', main_views.sport_create_view, name='sports-create'),
     path('event-create/', main_views.event_create_view, name='event-create'),
-    path('slots/', main_views.slot_view, name='find-slot')
+    path('slots/', main_views.slot_view, name='find-slot'),
+    path('venues/', main_views.venue_avail_view, name='find-venue'),
+    path('event-delete/', main_views.event_delete_view, name='delete-event'),
+    path('events/', main_views.event_view, name='events')
 
 
 ]

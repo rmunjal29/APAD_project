@@ -533,7 +533,9 @@ def find_booked_slots(venue, date, venue_time, games_count, event_time, debug=Tr
             part2[(items[0].strftime('%H:%M'), items[1].strftime('%H:%M'))] = int(games_avail_count[0])-temp1[items]
             print(part2)
             print("{:%H:%M} - {:%H:%M}".format(items[0],items[1]) + "\t" + "(" + str(int(games_avail_count[0])-temp1[items]) + ")")  
-    return part1, part2
+            return part1, part2
+        else:
+            return temp1
 
 
 # <a id="find-slots"></a>
@@ -562,42 +564,32 @@ def find_booked_slots(venue, date, venue_time, games_count, event_time, debug=Tr
 # In[13]:
 
 
-# Function to return a list of available venues for a given timeslot
-def display_venues_given_time(db, event_date, start_time, end_time):
+# # Function to return a list of available venues for a given timeslot
+# def display_venues_given_time(event_date, start_time, end_time, venue_list):
     
-    cursor = db.cursor()
     
-    event_date_strp = datetime.datetime.strptime(event_date, '%Y-%m-%d').date()
+#     event_date_strp = datetime.datetime.strptime(event_date, '%Y-%m-%d').date()
+# #     print(venue_list)
     
-    venue_query = '''SELECT venue_name FROM venue'''
-    cursor.execute(venue_query)
-    venues = cursor.fetchall()
-    venue_list = []
-    
-    for i in range(len(venues)):
-        venue_list.append(venues[i][0])
-    
-#     print(venue_list)
-    
-    avail_venues = []
-    for j in venue_list:
-        temp1 = find_booked_slots(db, j, event_date, False)
-        if temp1=={}:
-            avail_venues.append(j)
-        else:
-            initial_time = datetime.datetime.strptime(start_time, '%H').time()
-            finish_time = datetime.datetime.strptime(end_time, '%H').time()
+#     avail_venues = []
+#     for j in venue_list:
+#         temp1 = find_booked_slots(j, event_date, venue_time, games_count, event_time, debug=False)
+#         if temp1=={}:
+#             avail_venues.append(j)
+#         else:
+#             initial_time = datetime.datetime.strptime(start_time, '%H').time()
+#             finish_time = datetime.datetime.strptime(end_time, '%H').time()
 
-            initial_datetime = datetime.datetime.combine(event_date_strp,initial_time)
-            finish_datetime = datetime.datetime.combine(event_date_strp,finish_time)
+#             initial_datetime = datetime.datetime.combine(event_date_strp,initial_time)
+#             finish_datetime = datetime.datetime.combine(event_date_strp,finish_time)
 
-            timestamp = (initial_datetime, finish_datetime)
+#             timestamp = (initial_datetime, finish_datetime)
 
-            for items in temp1:
-                if items == timestamp and temp1[items]!=0:
-                    avail_venues.append(j)
+#             for items in temp1:
+#                 if items == timestamp and temp1[items]!=0:
+#                     avail_venues.append(j)
                     
-    return avail_venues
+#     return avail_venues
 
 
 # <a id="find-venues"></a>

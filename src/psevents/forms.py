@@ -135,3 +135,49 @@ class FindSlotForm(forms.Form):
 	class Meta:	
 		fields = ('venue', 'event_date')
 
+class FindVenueForm(forms.Form):
+
+	event_date = forms.CharField(label='Please Enter the date in yyyy-mm-dd format', max_length=15)
+	start_time = forms.CharField(label='Please Enter the start time in 24hrs format (Only the hour)', max_length=2)
+	end_time = forms.CharField(label='Please Enter the end time in 24hrs format (Only the hour)', max_length=2)
+	
+	class Meta:	
+		fields = ('event_date', 'start_time', 'end_time')
+
+
+class DeleteEventForm(forms.Form):
+
+	event = forms.ModelChoiceField(queryset=add_new_event.objects.all(), empty_label="(Nothing)")
+	def __init__(self, *args, **kwargs):
+		super(DeleteEventForm, self).__init__(*args, **kwargs)
+		queryset = self.fields['event'].queryset
+		choices = [(poll.pk, poll.event_name) for poll in queryset]
+		self.fields['event'].choices = choices
+
+	class Meta:	
+		fields = ('event',)
+
+
+class FindEventForm(forms.Form):
+
+	event_date = forms.CharField(label='Please Enter the date in yyyy-mm-dd format', max_length=15)
+	start_time = forms.CharField(label='Please Enter the start time in 24hrs format (Only the hour)', max_length=2)
+	end_time = forms.CharField(label='Please Enter the end time in 24hrs format (Only the hour)', max_length=2)
+	zip_code = forms.CharField(label='Venue zip code', max_length=100)
+
+	class Meta:	
+		fields = ('event_date','start_time', 'end_time', 'zip_code')
+
+
+class EventCatForm(forms.ModelForm):
+	event_cat_name = forms.ModelChoiceField(queryset=add_event_cat.objects.all(), required=False)
+
+	def __init__(self, *args, **kwargs):
+		super(EventCatForm, self).__init__(*args, **kwargs)
+		queryset = self.fields['event_cat_name'].queryset
+		choices = [(poll.pk, poll.event_cat_name) for poll in queryset]
+		self.fields['event_cat_name'].choices = choices
+
+	class Meta:
+		model = add_event_cat
+		fields = ('event_cat_name',)

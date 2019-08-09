@@ -9,6 +9,8 @@ from django.contrib.auth import authenticate
 from .forms import *
 from .models import *
 from .project1 import *
+import datetime
+from datetime import timedelta
 
 
 
@@ -124,7 +126,7 @@ def event_cat_create_view(request):
 		return render(request, "events/event-cat-create.html", context)
 	else:
 		# raise ValidationError("You are not authorized to add a venue (Admin only activity)") 
-		messages.info(request, 'You are not authorized to add a venue! (Admin only activity)')
+		messages.info(request, 'You are not authorized to add an event category! (Admin only activity)')
 		return redirect('home')
 
 
@@ -140,7 +142,7 @@ def sport_create_view(request):
 		return render(request, "events/sports-create.html", context)
 	else:
 		# raise ValidationError("You are not authorized to add a venue (Admin only activity)") 
-		messages.info(request, 'You are not authorized to add a venue! (Admin only activity)')
+		messages.info(request, 'You are not authorized to add a sport! (Admin only activity)')
 		return redirect('home')
 
 
@@ -166,7 +168,7 @@ def event_create_view(request):
 		return render(request, "events/event-create.html", context)
 	else:
 		# raise ValidationError("You are not authorized to add a venue (Admin only activity)") 
-		messages.info(request, 'You are not logged in. Please login first to view the details of venues')
+		messages.info(request, 'You are not logged in. Please login first to create an event')
 		return redirect('login')
 
 
@@ -206,5 +208,120 @@ def slot_view(request):
 
 	else:
 		# raise ValidationError("You are not authorized to add a venue (Admin only activity)") 
-		messages.info(request, 'You are not logged in. Please login first to view the details of venues')
+		messages.info(request, 'You are not logged in. Please login first to view the available slots')
 		return redirect('login')	
+
+def venue_avail_view(request):
+	if request.user.is_authenticated:
+		avail_venues=[]
+		form = FindVenueForm(request.POST or None)
+		if form.is_valid():
+			date = form.cleaned_data.get('event_date')	
+			start_time = form.cleaned_data.get('start_time')	
+			end_time = form.cleaned_data.get('end_time')
+			venues = add_venue.objects.values_list('venue_name', flat=True)
+
+			event_date_strp = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+
+			# print(venues)
+			# print(start_time,end_time)
+
+			for j in venues:
+				venue_time = add_venue.objects.filter(venue_name=j).values('open_time','close_time')
+				games_count = add_venue.objects.filter(venue_name=j).values('games_total_count')
+				event_time = add_new_event.objects.filter(venue__venue_name__contains=j, event_date=date).values('start_time','end_time')
+
+				temp1 = find_booked_slots(j, date, venue_time, games_count, event_time, debug=False)
+				# print(temp1)
+				if temp1==None:
+					avail_venues.append(j)
+				else:
+					initial_time = datetime.datetime.strptime(start_time, '%H').time()
+					finish_time = datetime.datetime.strptime(end_time, '%H').time()
+
+					initial_datetime = datetime.datetime.combine(event_date_strp,initial_time)
+					finish_datetime = datetime.datetime.combine(event_date_strp,finish_time)
+
+					timestamp = (initial_datetime, finish_datetime)
+
+					for items in temp1:
+						if items == timestamp and temp1[items]!=0:
+							avail_venues.append(j)
+
+			flag=0
+
+		else:
+			flag=1
+
+		context = {
+		'form': form,
+		'venues': avail_venues,
+		'flag': flag
+		}
+
+		return render(request, "events/find-venues.html", context)
+	else:
+		# raise ValidationError("You are not authorized to add a venue (Admin only activity)") 
+		messages.info(request, 'You are not logged in. Please login first to view the available venues')
+		return redirect('login')		
+
+
+
+def event_view(request):
+	if request.user.is_authenticated:
+		events=None
+		form1=None
+		form = FindEventForm(request.POST or None)
+		if form.is_valid():
+			date = form.cleaned_data.get('event_date')	
+			start_time = form.cleaned_data.get('start_time')	
+			end_time = form.cleaned_data.get('end_time')
+			zip_code = form.cleaned_data.get('zip_code')
+
+			events = add_new_event.objects.filter(venue__zip_code__contains=zip_code, event_date = date, 
+				start_time__gte=start_time, start_time__lte=end_time).values('event_name', 'event_desc', 'capacity_avail')
+
+			print(events)
+			form1 = EventCatForm(request.POST or None)
+			if form1.is_valid:
+				messages.info(request, 'Congratulations you have joined the event!')
+
+			flag=0
+		else:
+			flag=1
+
+		context = {
+			"form": form,
+			"flag": flag,
+			"events": events,
+			"form1": form1			
+		}
+		return render(request, "events/find-events.html", context)
+
+
+	else:
+		# raise ValidationError("You are not authorized to add a venue (Admin only activity)") 
+		messages.info(request, 'You are not logged in. Please login first to view the available events')
+		return redirect('login')		
+
+
+
+
+
+def event_delete_view(request):
+	if request.user.is_superuser:
+		form = DeleteEventForm(request.POST or None)
+		if form.is_valid():
+			event = form.cleaned_data.get('event')
+			event.delete()
+			return redirect('../../')
+		context = {
+			"form": form,
+		}
+		return render(request, "events/event-delete.html", context)
+	else:
+		messages.info(request, 'You are not authorized to delete a venue! (Admin only activity)')
+		return redirect('home')
+
+
+

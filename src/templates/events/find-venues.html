@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% if flag == 1 %}
+<form action='.' method='POST'>{% csrf_token %}
+    {{ form.as_p }}
+
+	<input type='submit' value='Find-venues' />
+
+</form>
+{% else %}
+
+<table align="center" style="width: 50%;">
+			<thead>
+				<tr>
+					<th>Venues</th>
+				</tr>
+			</thead>	
+			<tbody>
+			{% for i in venues %}
+			<tr>
+				<td>{{ i }}</td>
+			</tr>	
+			{% endfor %}
+			</tbody>
+			
+</table>	
+
+{% endif %}
+
+{% endblock %}
