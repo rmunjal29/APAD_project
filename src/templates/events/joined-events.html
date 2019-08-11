@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load custom_tags %}
+
+
+
+<table align="center" style="width: 50%;">
+			<thead>
+				<tr>
+					<th>Event_Name</th>
+					<th>Event Description</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+
+				</tr>
+			</thead>	
+			<tbody>
+			{% for i in events %}
+				<tr>
+				{% for key,value in i.items %}
+				<td>{{ value }}</td>
+				{% endfor %}
+				
+			</tr>	
+			{% endfor %}
+			</tbody>
+			
+</table>	
+
+
+
+{% endblock %}

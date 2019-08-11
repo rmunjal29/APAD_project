@@ -38,7 +38,9 @@ urlpatterns = [
     path('slots/', main_views.slot_view, name='find-slot'),
     path('venues/', main_views.venue_avail_view, name='find-venue'),
     path('event-delete/', main_views.event_delete_view, name='delete-event'),
-    path('events/', main_views.event_view, name='events')
+    path('events/', main_views.event_view, name='events'),
+    path('display/', main_views.join_event_view, name='display-events'),
+    path('joined-events/', main_views.joined_event_view, name='joined-events')
 
 
 ]

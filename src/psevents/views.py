@@ -11,7 +11,8 @@ from .models import *
 from .project1 import *
 import datetime
 from datetime import timedelta
-
+from django.template.defaulttags import register
+from django.http import HttpRequest
 
 
 @login_required
@@ -270,7 +271,6 @@ def venue_avail_view(request):
 def event_view(request):
 	if request.user.is_authenticated:
 		events=None
-		form1=None
 		form = FindEventForm(request.POST or None)
 		if form.is_valid():
 			date = form.cleaned_data.get('event_date')	
@@ -278,23 +278,13 @@ def event_view(request):
 			end_time = form.cleaned_data.get('end_time')
 			zip_code = form.cleaned_data.get('zip_code')
 
-			events = add_new_event.objects.filter(venue__zip_code__contains=zip_code, event_date = date, 
-				start_time__gte=start_time, start_time__lte=end_time).values('event_name', 'event_desc', 'capacity_avail')
-
-			print(events)
-			form1 = EventCatForm(request.POST or None)
-			if form1.is_valid:
-				messages.info(request, 'Congratulations you have joined the event!')
-
-			flag=0
-		else:
-			flag=1
+			request.session['date'] = date
+			request.session['start_time'] = start_time
+			request.session['end_time'] = end_time
+			request.session['zip_code'] = zip_code
 
 		context = {
-			"form": form,
-			"flag": flag,
-			"events": events,
-			"form1": form1			
+			"form": form,			
 		}
 		return render(request, "events/find-events.html", context)
 
@@ -323,5 +313,68 @@ def event_delete_view(request):
 		messages.info(request, 'You are not authorized to delete a venue! (Admin only activity)')
 		return redirect('home')
 
+@register.filter(name='lookup')
+def lookup(value, arg):
+    return value[arg]
 
+
+def join_event_view(request):
+	date = request.session['date']
+	start_time = request.session['start_time'] 
+	end_time = request.session['end_time'] 
+	zip_code = request.session['zip_code'] 
+
+
+	events = add_new_event.objects.filter(venue__zip_code__contains=zip_code, event_date = date, 
+				start_time__gte=start_time, start_time__lte=end_time).values('id','event_name', 'event_desc', 'capacity_avail')
+
+
+	form = EventCatForm(request.POST or None)
+	if form.is_valid():
+		event_id = request.POST.get("counter")
+		# print(event_id)
+		if event_id != None:
+			member_flag = add_new_event.objects.filter(id=int(event_id)).values('member_flag').first()
+			member_flag = int(member_flag["member_flag"])
+
+			if member_flag==1:
+				messages.info(request, 'You are already registered for the event!')
+				return redirect('home')
+
+			else:	
+				add_new_event.objects.filter(id=int(event_id)).update(member_flag=1)
+				capacity_avail = add_new_event.objects.filter(id=int(event_id)).values('capacity_avail').first()
+				capacity_avail = int(capacity_avail["capacity_avail"])-1
+				add_new_event.objects.filter(id=int(event_id)).update(capacity_avail=capacity_avail)
+
+				messages.info(request, 'Congratulations, You are registered for the event!')
+				return redirect('home')
+				# events1.save("member_flag")
+	
+
+		
+
+	context = {
+	"events": events,
+	"form": form
+
+	}
+	return render(request, "events/display-events.html", context)
+
+
+def joined_event_view(request):
+	if request.user.is_authenticated:
+		events = add_new_event.objects.filter(member_flag=1).values('event_name', 'event_desc', 'start_time', 'end_time')
+
+		context = {
+			"events": events			
+		}
+		return render(request, "events/joined-events.html", context)
+
+
+	else:
+		# raise ValidationError("You are not authorized to add a venue (Admin only activity)") 
+		messages.info(request, 'You are not logged in. Please login first to view the joined events')
+		return redirect('login')		
+	
 

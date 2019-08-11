@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load custom_tags %}
+
+
+
+<table align="center" style="width: 50%;">
+			<thead>
+				<tr>
+					<th>Event id</th>
+					<th>Event_Name</th>
+					<th>Event Description</th>
+					<th>Capacity Available</th>
+
+					<th></th>
+				</tr>
+			</thead>	
+			<tbody>
+			{% for i in events %}
+				<tr>
+				{% for key,value in i.items %}
+				<td>{{ value }}</td>
+				{% endfor %}
+				<td><form action='.' method='POST'>{% csrf_token %}
+				    {{ form.as_p }}
+				    <input type="hidden" name="counter" value="{{i.items|dict_key}}">
+					<input type='submit' name= "trouble" value='Join Now' />
+				</form></td>
+				
+			</tr>	
+			{% endfor %}
+			</tbody>
+			
+</table>	
+
+
+
+{% endblock %}

@@ -67,9 +67,10 @@ class add_new_event(models.Model):
 	def get_absolute_url(self):
 		return reverse("psevents:event-detail", kwargs={"id": self.id})
 
+# class joined_event(models.Model):
 
-
-
+# 	event_id = models.ForeignKey(add_new_event, null=True, on_delete=models.PROTECT)
+# 	user_id = models.ForeignKey(User, on_delete=models.PROTECT)
 
 
 
