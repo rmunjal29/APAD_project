@@ -273,16 +273,20 @@ def event_view(request):
 		events=None
 		form = FindEventForm(request.POST or None)
 		if form.is_valid():
+			print("hello")
 			date = form.cleaned_data.get('event_date')	
 			start_time = form.cleaned_data.get('start_time')	
 			end_time = form.cleaned_data.get('end_time')
 			zip_code = form.cleaned_data.get('zip_code')
+
+			print(date)
 
 			request.session['date'] = date
 			request.session['start_time'] = start_time
 			request.session['end_time'] = end_time
 			request.session['zip_code'] = zip_code
 
+			return redirect('display-events')
 		context = {
 			"form": form,			
 		}
@@ -319,14 +323,18 @@ def lookup(value, arg):
 
 
 def join_event_view(request):
-	date = request.session['date']
-	start_time = request.session['start_time'] 
-	end_time = request.session['end_time'] 
-	zip_code = request.session['zip_code'] 
+	date = request.session.get('date')
+	start_time = request.session.get('start_time') 
+	end_time = request.session.get('end_time') 
+	zip_code = request.session.get('zip_code') 
 
 
 	events = add_new_event.objects.filter(venue__zip_code__contains=zip_code, event_date = date, 
 				start_time__gte=start_time, start_time__lte=end_time).values('id','event_name', 'event_desc', 'capacity_avail')
+
+	print(date)
+	print(zip_code)
+	print(events)
 
 
 	form = EventCatForm(request.POST or None)
@@ -364,7 +372,7 @@ def join_event_view(request):
 
 def joined_event_view(request):
 	if request.user.is_authenticated:
-		events = add_new_event.objects.filter(member_flag=1).values('event_name', 'event_desc', 'start_time', 'end_time')
+		events = add_new_event.objects.filter(member_flag=1, user_id=request.user.id).values('event_name', 'event_desc', 'start_time', 'end_time')
 
 		context = {
 			"events": events			

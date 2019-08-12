@@ -1,24 +1,232 @@
-{% extends 'base.html' %}
+<html>
+<head>
+<style>
+table {
+  font-family: Times New Roman, serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
-{% block content %}
-<h2>Welcome, {{ user.get_full_name }} <small>{{ user.username }}</small>!</h2>
-  <p>Your email address: {{ user.email }}</p>
-  <a href="{% url 'logout' %}">LogOut</a>
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.button {
+  background-color: #000000;
+  color: #FFFFFF;
+  float: left;
+  padding: 10px;
+  border-radius: 5px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  margin:5px;
+  margin:5px;
+}
+    .small-btn {
+        width: 50px;
+        height: 25px;
+    }
+
+    .medium-btn {
+        width: 130px;
+        height: 30px;
+    }
+
+    .big-btn {
+        width: 120px;
+        height: 30px;
+    }
+nav
+{
+    position: fixed;
+    top: 85%;
+    right: 100%;
+    left: 8%;
+    width: 319px;
+    display: table;
+    margin: 0 auto;
+    transform: translateY(-50%);
+    text-align: center;
+}
+nav a
+{
+    position: relative;
+    width: 53.333%;
+    display: table-cell;
+    text-align: center;
+    color: #000099;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: 0.2s ease color;
+}
+
+nav a:before, nav a:after
+{
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 0.2s ease transform;
+}
+
+nav a:before
+{
+    top: 0;
+    left: 10px;
+    width: 6px;
+    height: 6px;
+}
+
+nav a:after
+{
+    top: 5px;
+    left: 18px;
+    width: 4px;
+    height: 4px
+}
+
+nav a:nth-child(1):before
+{
+    background-color: yellow;
+}
+
+nav a:nth-child(1):after
+{
+    background-color: red;
+}
+
+nav a:nth-child(2):before
+{
+    background-color: #00e2ff;
+}
+
+nav a:nth-child(2):after
+{
+    background-color: #89ff00;
+}
+
+nav a:nth-child(3):before
+{
+    background-color: purple;
+}
+
+nav a:nth-child(3):after
+{
+    background-color: palevioletred;
+}
+
+#indicator
+{
+    position: absolute;
+    left: 5%;
+    bottom: 0;
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: 0.2s ease left;
+}
+
+nav a:hover
+{
+    color: #00ccff;
+}
+
+nav a:hover:before, nav a:hover:after
+{
+    transform: scale(1);
+}
+
+nav a:nth-child(1):hover ~ #indicator
+{
+    background: linear-gradient(130deg, yellow, red);
+}
+
+nav a:nth-child(2):hover ~ #indicator
+{
+    left: 34%;
+    background: linear-gradient(130deg, #00e2ff, #89ff00);
+}
+
+nav a:nth-child(3):hover ~ #indicator
+{
+    left: 70%;
+    background: linear-gradient(130deg, purple, palevioletred);
+}
+
+#ytd_link
+{
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: -200px;
+    display: block;
+    width: 160px;
+    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 10px;
+    margin: 0 auto;
+    background-color: red;
+    border-radius: 2px;
+    animation: showYTDlink 1.5s ease 3s forwards;
+}
+
+@keyframes showYTDlink
+{
+    0%{ bottom: -200px; }
+    100%{ bottom: 20px; }
+}
+h1 {
+  text-shadow: 0 0 3px #000099;
+}
+h2 {
+  text-shadow: 0 0 3px #009933;
+}
+p {
+  text-shadow: 0 0 3px #009933;
+}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<h1 align="center">Welcome to Pickup Sports</h1>
+<h2 align="center">Welcome, {{ user.get_full_name }} <medium>{{ user.username }}</medium>!</h2>
+  <p align="center">Your email address: {{ user.email }}</p>
+    <center><img src="/media/background.jpg" alt="background" height="60%" ></center>
+	<nav>
+		{% if user.is_authenticated %}
+			<a href="{% url 'logout' %}">LogOut</a>
+		{% else %}
+			<a href="{% url 'login' %}">LogIn</a> 
+			<a href="{% url 'signup' %}">SignUp</a>
+		{% endif %}
   <a href="{% url 'venue-create' %}">Add a venue</a>
-  <a href="{% url 'event-create' %}">Create an event</a> 
-  <a href="{% url 'event-cat' %}">Create an event category</a> 
-  <a href="{% url 'sports-create' %}">Create a sport</a> 
+  <a href="{% url 'event-create' %}">Create an event</a>
+  <a href="{% url 'event-cat' %}">Create an event category</a>
+  <a href="{% url 'sports-create' %}">Create a sport</a>
   <a href="{% url 'find-slot' %}">Find a slot</a>
-  <a href="{% url 'find-venue' %}">Find venues</a> 
-  <a href="{% url 'delete-event' %}">Delete Event</a> 
-  <a href="{% url 'events' %}">Search Events</a> 
-  <a href="{% url 'joined-events' %}">View Joined Events</a> 
+  <a href="{% url 'find-venue' %}">Find venues</a>
+  <a href="{% url 'delete-event' %}">Delete Event</a>
+  <a href="{% url 'events' %}">Search Events</a>
+  <a href="{% url 'joined-events' %}">View joined Events</a>
+    </nav>
   {% if messages %}
 <ul class="messages" style="color: red">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
 </ul>
 {% endif %}
+</body>
 
-{% endblock %}
+</html>

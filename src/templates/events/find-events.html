@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<form action="{% url 'display-events' %}" method='POST'>{% csrf_token %}
+<form action="." method='POST'>{% csrf_token %}
     {{ form.as_p }}
 
 	<input type='submit' value='Find-events' />
