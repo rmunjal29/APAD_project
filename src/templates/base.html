@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Pickup Sports Events</title>
-
-</style>
-
-
-<html>
-<head>
 <style>
 table {
   font-family: Times New Roman, serif;
@@ -24,177 +17,6 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-
-.button {
-  background-color: #000000;
-  color: #FFFFFF;
-  float: left;
-  padding: 10px;
-  border-radius: 5px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  margin:5px;
-  margin:5px;
-}
-    .small-btn {
-        width: 50px;
-        height: 25px;
-    }
-
-    .medium-btn {
-        width: 130px;
-        height: 30px;
-    }
-
-    .big-btn {
-        width: 120px;
-        height: 30px;
-    }
-nav
-{
-    position: fixed;
-    top: 10%;
-    right: 100%;
-    left: 5%;
-    width: 319px;
-    display: table;
-    margin: 0 auto;
-    transform: translateY(-50%);
-    text-align: center;
-}
-nav a
-{
-    position: relative;
-    width: 53.333%;
-    display: table-cell;
-    text-align: center;
-    color: #000099;
-    text-decoration: none;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: bold;
-    padding: 10px 20px;
-    transition: 0.2s ease color;
-}
-
-nav a:before, nav a:after
-{
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    transform: scale(0);
-    transition: 0.2s ease transform;
-}
-
-nav a:before
-{
-    top: 0;
-    left: 10px;
-    width: 6px;
-    height: 6px;
-}
-
-nav a:after
-{
-    top: 5px;
-    left: 18px;
-    width: 4px;
-    height: 4px
-}
-
-nav a:nth-child(1):before
-{
-    background-color: yellow;
-}
-
-nav a:nth-child(1):after
-{
-    background-color: red;
-}
-
-nav a:nth-child(2):before
-{
-    background-color: #00e2ff;
-}
-
-nav a:nth-child(2):after
-{
-    background-color: #89ff00;
-}
-
-nav a:nth-child(3):before
-{
-    background-color: purple;
-}
-
-nav a:nth-child(3):after
-{
-    background-color: palevioletred;
-}
-
-#indicator
-{
-    position: absolute;
-    left: 5%;
-    bottom: 0;
-    width: 30px;
-    height: 3px;
-    background-color: #fff;
-    border-radius: 5px;
-    transition: 0.2s ease left;
-}
-
-nav a:hover
-{
-    color: #00ccff;
-}
-
-nav a:hover:before, nav a:hover:after
-{
-    transform: scale(1);
-}
-
-nav a:nth-child(1):hover ~ #indicator
-{
-    background: linear-gradient(130deg, yellow, red);
-}
-
-nav a:nth-child(2):hover ~ #indicator
-{
-    left: 34%;
-    background: linear-gradient(130deg, #00e2ff, #89ff00);
-}
-
-nav a:nth-child(3):hover ~ #indicator
-{
-    left: 70%;
-    background: linear-gradient(130deg, purple, palevioletred);
-}
-
-#ytd_link
-{
-    position: absolute;
-    right: 0;
-    left: 0;
-    bottom: -200px;
-    display: block;
-    width: 160px;
-    text-align: center;
-    color: #fff;
-    font-size: 15px;
-    text-decoration: none;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    padding: 10px;
-    margin: 0 auto;
-    background-color: red;
-    border-radius: 2px;
-    animation: showYTDlink 1.5s ease 3s forwards;
-}
-
-@keyframes showYTDlink
-{
-    0%{ bottom: -200px; }
-    100%{ bottom: 20px; }
-}
 h1 {
   text-shadow: 0 0 3px #000099;
 }
@@ -204,57 +26,157 @@ h2 {
 p {
   text-shadow: 0 0 3px #009933;
 }
-<script>
-  $(function () {
-    $("#datetimepicker1").datetimepicker({
-      format: 'YYYY/MM/DD HH:mm',
-    });
-  });
-</script>
+.hm-gradient {
+    background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+}
+.navbar .dropdown-menu a:hover {
+    color: #616161 !important;
+}
+.darken-grey-text {
+    color: #2E2E2E;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
 
+li {
+  float: left;
+}
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+li a:hover {
+  background-color: #111;
+}
 </style>
 </head>
-<body bgcolor="#ffffff">
-	<header>
-	<nav>
-		
-		{% if user.is_authenticated %}
-			<a href="{% url 'home' %}">Dashboard</a>
-			<a href="{% url 'logout' %}">LogOut</a>
-		{% else %}
-			<a href="{% url 'login' %}">LogIn</a>
-			<a href="{% url 'signup' %}">SignUp</a>
-		{% endif %}
-  <a href="{% url 'venue-create' %}">Add a venue</a>
-  <a href="{% url 'event-create' %}">Create an event</a>
-  <a href="{% url 'event-cat' %}">Create an event category</a>
-  <a href="{% url 'sports-create' %}">Create a sport</a>
-  <a href="{% url 'find-slot' %}">Find a slot</a>
-  <a href="{% url 'find-venue' %}">Find venues</a>
-  <a href="{% url 'delete-event' %}">Delete Event</a>
-  <a href="{% url 'events' %}">Search Events</a>
-  <a href="{% url 'joined-events' %}">View joined Events</a>
-    </nav>
-    </header>
+<body class="hm-gradient">
+<main>
 
-	<h1 align="center">Welcome to Pickup Sports</h1>
-	{% if user.is_authenticated %}
-	<h2 align="center">Welcome, {{ user.get_full_name }} <medium>{{ user.username }}</medium>!</h2>
-	  <p align="center">Your email address: {{ user.email }}</p>
-    {% if messages %}
-	<ul class="messages" style="color: red">
-	    {% for message in messages %}
-	    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-	    {% endfor %}
-	</ul>
+	<div class="container mt-4">
+                      <div class="text-center darken-grey-text mb-4">
+                      </div>
+            <nav class="navbar navbar-expand-lg navbar-dark teal mb-4">
+
+            	 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+
+                    	{% if user.is_authenticated %}
+                    	<li class="nav-item">
+							<a href="{% url 'home' %}">Dashboard</a>
+						</li>
+                    		<li class="nav-item">
+							<a href="{% url 'logout' %}">LogOut</a>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a href="{% url 'login' %}">LogIn</a> 
+						</li>
+						<li class="nav-item">	
+							<a href="{% url 'signup' %}">SignUp</a>
+						</li>
+
+						{% endif %}
+
+						{% if user.is_superuser %}
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'venue-create' %}">Add a venue</a>
+						</li>
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'event-cat' %}">Create an event category</a>
+						</li>
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'sports-create' %}">Create a sport</a>
+						</li>
+						
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'delete-event' %}">Delete Event</a>
+						</li>
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'delete-user' %}">Delete User</a>
+						</li>
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'find-slot' %}">Find a slot</a>
+						</li>
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'find-venue' %}">Find venues</a>
+						</li>
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'event-create' %}">Create an event</a>
+						</li>
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'events' %}">Search & Join Events</a>
+						</li>
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'joined-events' %}">View joined Events</a>
+						</li>
+
+						
+						{% else %}
+
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'find-slot' %}">Find a slot</a>
+						</li>
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'find-venue' %}">Find venues</a>
+						</li>
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'event-create' %}">Create an event</a>
+						</li>
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'events' %}">Search & Join Events</a>
+						</li>
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'joined-events' %}">View joined Events</a>
+						</li>
+
+						{% endif %}
+					    </nav>
+
+					    </ul>
+                    </div>
+            </nav>
+
+            <h1 align="center">Pickup Sports Event Management</h1>
+
+            {% if user.is_authenticated %}
+			<h2 align="center">Welcome, {{ user.get_full_name }} <medium>{{ user.username }}</medium>!</h2>
+		  	<p align="center">Your email address: {{ user.email }}</p>
+    	
+
+    	</div>
+    </main>
+
+
+  {% if messages %}
+<ul class="messages" style="color: red">
+    {% for message in messages %}
+    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% endif %}
 
-	{% endif %}
 
-  {% block content %}
-
+{% block content %}
 {% endblock %}
-
 </body>
 
 </html>

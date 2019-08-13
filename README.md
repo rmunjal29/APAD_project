@@ -60,3 +60,11 @@ CSV FILES:
 1. user.csv : Contains the user data for the add a user functionality
 2. venue.csv : Contains the venue details for add a venue functionality
 
+
+Project 2- Web Portal: Deploy the app on the Google App Engine
+
+App deployed at https://psevents.appspot.com
+
+Backend: Django
+Source Folder - "src/"
+Database: MySQL using CloudSQL

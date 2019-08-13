@@ -15,7 +15,7 @@ from django.template.defaulttags import register
 from django.http import HttpRequest
 
 
-@login_required
+
 def home(request):
 	return render(request, 'home.html')
 
@@ -308,6 +308,7 @@ def event_delete_view(request):
 		if form.is_valid():
 			event = form.cleaned_data.get('event')
 			event.delete()
+			messages.info(request, 'Event deleted successfully')
 			return redirect('../../')
 		context = {
 			"form": form,
@@ -316,6 +317,26 @@ def event_delete_view(request):
 	else:
 		messages.info(request, 'You are not authorized to delete a venue! (Admin only activity)')
 		return redirect('home')
+
+
+
+def user_delete_view(request):
+	if request.user.is_superuser:
+		form = DeleteUserForm(request.POST or None)
+		if form.is_valid():
+			username = form.cleaned_data.get('username')
+			print(username)
+			username.delete()
+			messages.info(request, 'User deleted successfully')
+			return redirect('../../')
+		context = {
+			"form": form,
+		}
+		return render(request, "user-delete.html", context)
+	else:
+		messages.info(request, 'You are not authorized to delete a venue! (Admin only activity)')
+		return redirect('home')
+
 
 @register.filter(name='lookup')
 def lookup(value, arg):

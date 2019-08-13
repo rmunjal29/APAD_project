@@ -2,14 +2,10 @@
 
 {% block content %}
 
-
 <form action='.' method='POST'>{% csrf_token %}
-    {{ events.as_p }}
-
-	<input type='submit' value='Add-Event' />
-
+	{{form.as_p}}
+    <p><input type='submit' value='Delete'></p>
 </form>
-
 
 
 

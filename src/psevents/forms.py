@@ -157,6 +157,13 @@ class DeleteEventForm(forms.Form):
 	class Meta:	
 		fields = ('event',)
 
+class DeleteUserForm(forms.Form):
+
+	username = forms.ModelChoiceField(queryset=User.objects.filter(is_staff=False), empty_label="Select One")
+
+	class Meta:	
+		fields = ('username',)
+
 
 class FindEventForm(forms.Form):
 
