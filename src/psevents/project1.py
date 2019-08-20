@@ -571,7 +571,7 @@ def find_booked_slots(venue, date, venue_time, games_count, event_time, debug=Tr
 #     event_date_strp = datetime.datetime.strptime(event_date, '%Y-%m-%d').date()
 # #     print(venue_list)
     
-#     avail_venues = []
+#     avail_venues = [] 
 #     for j in venue_list:
 #         temp1 = find_booked_slots(j, event_date, venue_time, games_count, event_time, debug=False)
 #         if temp1=={}:

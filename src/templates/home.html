@@ -82,7 +82,12 @@ li a:hover {
 							<a href="{% url 'signup' %}">SignUp</a>
 						</li>
 
+						
 						{% endif %}
+
+						<li class="nav-item">
+						  <a class="nav-link" href="{% url 'info' %}">User-Guide</a>
+						</li>
 						
 						{% if user.is_superuser %}
 						<li class="nav-item">
@@ -146,6 +151,9 @@ li a:hover {
 						</li>
 
 						{% endif %}
+						<li class="nav-item">
+						  <a class="nav-link" href="/media/psevents-app.apk">Download Android App</a>
+						</li>
 					    </nav>
 
 					    </ul>

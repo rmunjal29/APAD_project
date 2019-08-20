@@ -1,0 +1,100 @@
+(0.037) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.037) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.037) SELECT VERSION(); args=None
+(0.036) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.037) SHOW FULL TABLES; args=None
+(0.036) SELECT `django_migrations`.`app`, `django_migrations`.`name` FROM `django_migrations`; args=()
+(0.039) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.041) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.039) SELECT VERSION(); args=None
+(0.040) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.041) SHOW FULL TABLES; args=None
+(0.040) SELECT `django_migrations`.`app`, `django_migrations`.`name` FROM `django_migrations`; args=()
+(0.039) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.039) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.039) SELECT VERSION(); args=None
+(0.038) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.040) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2019-08-19 17:53:19.785016' AND `django_session`.`session_key` = 'w0eopdi1inah0n08rrmwnnyla4f81loa'); args=('2019-08-19 17:53:19.785016', 'w0eopdi1inah0n08rrmwnnyla4f81loa')
+(0.039) SELECT `auth_user`.`id`, `auth_user`.`password`, `auth_user`.`last_login`, `auth_user`.`is_superuser`, `auth_user`.`username`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`email`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined` FROM `auth_user` WHERE `auth_user`.`id` = 1; args=(1,)
+"GET / HTTP/1.1" 200 2995
+(0.040) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.040) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.040) SELECT VERSION(); args=None
+(0.040) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.040) SHOW FULL TABLES; args=None
+(0.040) SELECT `django_migrations`.`app`, `django_migrations`.`name` FROM `django_migrations`; args=()
+(0.041) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.039) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.039) SELECT VERSION(); args=None
+(0.041) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.041) SELECT `auth_user`.`id`, `auth_user`.`password`, `auth_user`.`last_login`, `auth_user`.`is_superuser`, `auth_user`.`username`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`email`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined` FROM `auth_user` WHERE `auth_user`.`username` = 'prajval'; args=('prajval',)
+(0.040) SELECT `authtoken_token`.`key`, `authtoken_token`.`user_id`, `authtoken_token`.`created` FROM `authtoken_token` WHERE `authtoken_token`.`user_id` = 1; args=(1,)
+(0.040) SELECT (1) AS `a` FROM `django_session` WHERE `django_session`.`session_key` = '9cheptaa0yv1v0nq5a8t2zpqvk18tf85' LIMIT 1; args=('9cheptaa0yv1v0nq5a8t2zpqvk18tf85',)
+(0.041) INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES ('9cheptaa0yv1v0nq5a8t2zpqvk18tf85', 'NTZlMDM5ZGMxNzg3MGE4ZTdmNzNhMTA2NzYzYzI1MWVjZjhiM2UwNDp7fQ==', '2019-09-02 17:56:02.518392'); args=('9cheptaa0yv1v0nq5a8t2zpqvk18tf85', 'NTZlMDM5ZGMxNzg3MGE4ZTdmNzNhMTA2NzYzYzI1MWVjZjhiM2UwNDp7fQ==', '2019-09-02 17:56:02.518392')
+(0.040) UPDATE `auth_user` SET `last_login` = '2019-08-19 17:56:02.685385' WHERE `auth_user`.`id` = 1; args=('2019-08-19 17:56:02.685385', 1)
+(0.039) SELECT `psevents_user_profile`.`id`, `psevents_user_profile`.`user1_id`, `psevents_user_profile`.`contact_number`, `psevents_user_profile`.`zip_code` FROM `psevents_user_profile` WHERE `psevents_user_profile`.`user1_id` = 1; args=(1,)
+(0.040) UPDATE `psevents_user_profile` SET `user1_id` = 1, `contact_number` = '', `zip_code` = '' WHERE `psevents_user_profile`.`id` = 1; args=(1, '', '', 1)
+(0.041) UPDATE `django_session` SET `session_data` = 'YTAzYTNlZTM4YWVhY2NkOTc4NjJmNDgzMTEyNjc0MDY3MGQxZWJhZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3MmM1M2ZhZGNhMTZlNTA2MTQyMWI5ZjhiN2U3NzZlNGZjM2NkNjVkIn0=', `expire_date` = '2019-09-02 17:56:03.054020' WHERE `django_session`.`session_key` = '9cheptaa0yv1v0nq5a8t2zpqvk18tf85'; args=('YTAzYTNlZTM4YWVhY2NkOTc4NjJmNDgzMTEyNjc0MDY3MGQxZWJhZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3MmM1M2ZhZGNhMTZlNTA2MTQyMWI5ZjhiN2U3NzZlNGZjM2NkNjVkIn0=', '2019-09-02 17:56:03.054020', '9cheptaa0yv1v0nq5a8t2zpqvk18tf85')
+"POST /api/v1/rest-auth/login/ HTTP/1.1" 200 50
+(0.039) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.039) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.040) SELECT VERSION(); args=None
+(0.036) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.038) SELECT `psevents_add_new_event`.`id`, `psevents_add_new_event`.`event_category_id`, `psevents_add_new_event`.`venue_id`, `psevents_add_new_event`.`sport_id`, `psevents_add_new_event`.`event_name`, `psevents_add_new_event`.`event_date`, `psevents_add_new_event`.`start_time`, `psevents_add_new_event`.`end_time`, `psevents_add_new_event`.`user_id_id`, `psevents_add_new_event`.`host_flag`, `psevents_add_new_event`.`member_flag`, `psevents_add_new_event`.`event_desc`, `psevents_add_new_event`.`capacity_avail` FROM `psevents_add_new_event` INNER JOIN `psevents_add_venue` ON (`psevents_add_new_event`.`venue_id` = `psevents_add_venue`.`id`) WHERE (`psevents_add_new_event`.`event_date` = '2019-08-08' AND `psevents_add_new_event`.`start_time` >= '10' AND `psevents_add_new_event`.`start_time` <= '14' AND `psevents_add_venue`.`zip_code` LIKE BINARY '%78704%'); args=('2019-08-08', '10', '14', '%78704%')
+"GET /api/v1/elv?event_date=2019-08-08&start_time=10&end_time=14&zip_code=78704 HTTP/1.1" 200 471
+(0.037) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.036) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.037) SELECT VERSION(); args=None
+(0.036) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.037) SELECT `psevents_add_new_event`.`id`, `psevents_add_new_event`.`event_category_id`, `psevents_add_new_event`.`venue_id`, `psevents_add_new_event`.`sport_id`, `psevents_add_new_event`.`event_name`, `psevents_add_new_event`.`event_date`, `psevents_add_new_event`.`start_time`, `psevents_add_new_event`.`end_time`, `psevents_add_new_event`.`user_id_id`, `psevents_add_new_event`.`host_flag`, `psevents_add_new_event`.`member_flag`, `psevents_add_new_event`.`event_desc`, `psevents_add_new_event`.`capacity_avail` FROM `psevents_add_new_event` WHERE `psevents_add_new_event`.`id` = 1; args=(1,)
+"PUT /api/v1/elv/1/ HTTP/1.1" 400 208
+(0.037) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.037) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.037) SELECT VERSION(); args=None
+(0.039) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.042) SELECT `auth_user`.`id`, `auth_user`.`password`, `auth_user`.`last_login`, `auth_user`.`is_superuser`, `auth_user`.`username`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`email`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined` FROM `auth_user` WHERE `auth_user`.`username` = 'prajval'; args=('prajval',)
+(0.040) SELECT `authtoken_token`.`key`, `authtoken_token`.`user_id`, `authtoken_token`.`created` FROM `authtoken_token` WHERE `authtoken_token`.`user_id` = 1; args=(1,)
+(0.039) SELECT (1) AS `a` FROM `django_session` WHERE `django_session`.`session_key` = 'o1g3o52shbiphi7aq0nn1tdywiq2zn5y' LIMIT 1; args=('o1g3o52shbiphi7aq0nn1tdywiq2zn5y',)
+(0.041) INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES ('o1g3o52shbiphi7aq0nn1tdywiq2zn5y', 'NTZlMDM5ZGMxNzg3MGE4ZTdmNzNhMTA2NzYzYzI1MWVjZjhiM2UwNDp7fQ==', '2019-09-02 17:57:39.246800'); args=('o1g3o52shbiphi7aq0nn1tdywiq2zn5y', 'NTZlMDM5ZGMxNzg3MGE4ZTdmNzNhMTA2NzYzYzI1MWVjZjhiM2UwNDp7fQ==', '2019-09-02 17:57:39.246800')
+(0.041) UPDATE `auth_user` SET `last_login` = '2019-08-19 17:57:39.414515' WHERE `auth_user`.`id` = 1; args=('2019-08-19 17:57:39.414515', 1)
+(0.040) SELECT `psevents_user_profile`.`id`, `psevents_user_profile`.`user1_id`, `psevents_user_profile`.`contact_number`, `psevents_user_profile`.`zip_code` FROM `psevents_user_profile` WHERE `psevents_user_profile`.`user1_id` = 1; args=(1,)
+(0.040) UPDATE `psevents_user_profile` SET `user1_id` = 1, `contact_number` = '', `zip_code` = '' WHERE `psevents_user_profile`.`id` = 1; args=(1, '', '', 1)
+(0.043) UPDATE `django_session` SET `session_data` = 'YTAzYTNlZTM4YWVhY2NkOTc4NjJmNDgzMTEyNjc0MDY3MGQxZWJhZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3MmM1M2ZhZGNhMTZlNTA2MTQyMWI5ZjhiN2U3NzZlNGZjM2NkNjVkIn0=', `expire_date` = '2019-09-02 17:57:39.786314' WHERE `django_session`.`session_key` = 'o1g3o52shbiphi7aq0nn1tdywiq2zn5y'; args=('YTAzYTNlZTM4YWVhY2NkOTc4NjJmNDgzMTEyNjc0MDY3MGQxZWJhZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3MmM1M2ZhZGNhMTZlNTA2MTQyMWI5ZjhiN2U3NzZlNGZjM2NkNjVkIn0=', '2019-09-02 17:57:39.786314', 'o1g3o52shbiphi7aq0nn1tdywiq2zn5y')
+"POST /api/v1/rest-auth/login/ HTTP/1.1" 200 50
+(0.037) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.037) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.036) SELECT VERSION(); args=None
+(0.036) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.037) SELECT `psevents_add_new_event`.`id`, `psevents_add_new_event`.`event_category_id`, `psevents_add_new_event`.`venue_id`, `psevents_add_new_event`.`sport_id`, `psevents_add_new_event`.`event_name`, `psevents_add_new_event`.`event_date`, `psevents_add_new_event`.`start_time`, `psevents_add_new_event`.`end_time`, `psevents_add_new_event`.`user_id_id`, `psevents_add_new_event`.`host_flag`, `psevents_add_new_event`.`member_flag`, `psevents_add_new_event`.`event_desc`, `psevents_add_new_event`.`capacity_avail` FROM `psevents_add_new_event` INNER JOIN `psevents_add_venue` ON (`psevents_add_new_event`.`venue_id` = `psevents_add_venue`.`id`) WHERE (`psevents_add_new_event`.`event_date` = '2019-08-08' AND `psevents_add_new_event`.`start_time` >= '10' AND `psevents_add_new_event`.`start_time` <= '14' AND `psevents_add_venue`.`zip_code` LIKE BINARY '%78704%'); args=('2019-08-08', '10', '14', '%78704%')
+"GET /api/v1/elv?event_date=2019-08-08&start_time=10&end_time=14&zip_code=78704 HTTP/1.1" 200 471
+(0.039) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.039) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.039) SELECT VERSION(); args=None
+(0.037) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.038) SELECT `psevents_add_new_event`.`id`, `psevents_add_new_event`.`event_category_id`, `psevents_add_new_event`.`venue_id`, `psevents_add_new_event`.`sport_id`, `psevents_add_new_event`.`event_name`, `psevents_add_new_event`.`event_date`, `psevents_add_new_event`.`start_time`, `psevents_add_new_event`.`end_time`, `psevents_add_new_event`.`user_id_id`, `psevents_add_new_event`.`host_flag`, `psevents_add_new_event`.`member_flag`, `psevents_add_new_event`.`event_desc`, `psevents_add_new_event`.`capacity_avail` FROM `psevents_add_new_event` WHERE `psevents_add_new_event`.`id` = 1; args=(1,)
+"PUT /api/v1/elv/1/ HTTP/1.1" 400 83
+(0.039) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.038) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.039) SELECT VERSION(); args=None
+(0.039) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.042) SELECT `auth_user`.`id`, `auth_user`.`password`, `auth_user`.`last_login`, `auth_user`.`is_superuser`, `auth_user`.`username`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`email`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined` FROM `auth_user` WHERE `auth_user`.`username` = 'prajval'; args=('prajval',)
+(0.039) SELECT `authtoken_token`.`key`, `authtoken_token`.`user_id`, `authtoken_token`.`created` FROM `authtoken_token` WHERE `authtoken_token`.`user_id` = 1; args=(1,)
+(0.040) SELECT (1) AS `a` FROM `django_session` WHERE `django_session`.`session_key` = '21xhf3lvgp2b3ewkgk7nf5554f041kax' LIMIT 1; args=('21xhf3lvgp2b3ewkgk7nf5554f041kax',)
+(0.039) INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES ('21xhf3lvgp2b3ewkgk7nf5554f041kax', 'NTZlMDM5ZGMxNzg3MGE4ZTdmNzNhMTA2NzYzYzI1MWVjZjhiM2UwNDp7fQ==', '2019-09-02 18:18:26.351495'); args=('21xhf3lvgp2b3ewkgk7nf5554f041kax', 'NTZlMDM5ZGMxNzg3MGE4ZTdmNzNhMTA2NzYzYzI1MWVjZjhiM2UwNDp7fQ==', '2019-09-02 18:18:26.351495')
+(0.040) UPDATE `auth_user` SET `last_login` = '2019-08-19 18:18:26.519535' WHERE `auth_user`.`id` = 1; args=('2019-08-19 18:18:26.519535', 1)
+(0.040) SELECT `psevents_user_profile`.`id`, `psevents_user_profile`.`user1_id`, `psevents_user_profile`.`contact_number`, `psevents_user_profile`.`zip_code` FROM `psevents_user_profile` WHERE `psevents_user_profile`.`user1_id` = 1; args=(1,)
+(0.039) UPDATE `psevents_user_profile` SET `user1_id` = 1, `contact_number` = '', `zip_code` = '' WHERE `psevents_user_profile`.`id` = 1; args=(1, '', '', 1)
+(0.039) UPDATE `django_session` SET `session_data` = 'YTAzYTNlZTM4YWVhY2NkOTc4NjJmNDgzMTEyNjc0MDY3MGQxZWJhZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3MmM1M2ZhZGNhMTZlNTA2MTQyMWI5ZjhiN2U3NzZlNGZjM2NkNjVkIn0=', `expire_date` = '2019-09-02 18:18:26.893659' WHERE `django_session`.`session_key` = '21xhf3lvgp2b3ewkgk7nf5554f041kax'; args=('YTAzYTNlZTM4YWVhY2NkOTc4NjJmNDgzMTEyNjc0MDY3MGQxZWJhZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI3MmM1M2ZhZGNhMTZlNTA2MTQyMWI5ZjhiN2U3NzZlNGZjM2NkNjVkIn0=', '2019-09-02 18:18:26.893659', '21xhf3lvgp2b3ewkgk7nf5554f041kax')
+"POST /api/v1/rest-auth/login/ HTTP/1.1" 200 50
+(0.040) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.042) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.036) SELECT VERSION(); args=None
+(0.039) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.042) SELECT `psevents_add_new_event`.`id`, `psevents_add_new_event`.`event_category_id`, `psevents_add_new_event`.`venue_id`, `psevents_add_new_event`.`sport_id`, `psevents_add_new_event`.`event_name`, `psevents_add_new_event`.`event_date`, `psevents_add_new_event`.`start_time`, `psevents_add_new_event`.`end_time`, `psevents_add_new_event`.`user_id_id`, `psevents_add_new_event`.`host_flag`, `psevents_add_new_event`.`member_flag`, `psevents_add_new_event`.`event_desc`, `psevents_add_new_event`.`capacity_avail` FROM `psevents_add_new_event` INNER JOIN `psevents_add_venue` ON (`psevents_add_new_event`.`venue_id` = `psevents_add_venue`.`id`) WHERE (`psevents_add_new_event`.`event_date` = '2019-08-08' AND `psevents_add_new_event`.`start_time` >= '10' AND `psevents_add_new_event`.`start_time` <= '14' AND `psevents_add_venue`.`zip_code` LIKE BINARY '%78704%'); args=('2019-08-08', '10', '14', '%78704%')
+"GET /api/v1/elv?event_date=2019-08-08&start_time=10&end_time=14&zip_code=78704 HTTP/1.1" 200 471
+(0.041) SELECT @@SQL_AUTO_IS_NULL; args=None
+(0.039) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.040) SELECT VERSION(); args=None
+(0.036) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
+(0.038) SELECT `psevents_add_new_event`.`id`, `psevents_add_new_event`.`event_category_id`, `psevents_add_new_event`.`venue_id`, `psevents_add_new_event`.`sport_id`, `psevents_add_new_event`.`event_name`, `psevents_add_new_event`.`event_date`, `psevents_add_new_event`.`start_time`, `psevents_add_new_event`.`end_time`, `psevents_add_new_event`.`user_id_id`, `psevents_add_new_event`.`host_flag`, `psevents_add_new_event`.`member_flag`, `psevents_add_new_event`.`event_desc`, `psevents_add_new_event`.`capacity_avail` FROM `psevents_add_new_event` WHERE `psevents_add_new_event`.`id` = 1; args=(1,)
+"PUT /api/v1/elv/1/ HTTP/1.1" 400 88

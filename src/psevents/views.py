@@ -13,7 +13,14 @@ import datetime
 from datetime import timedelta
 from django.template.defaulttags import register
 from django.http import HttpRequest
-
+from rest_framework.views import APIView
+from . import serializers
+from rest_framework.response import Response
+from rest_framework import status
+from django.core.exceptions import ObjectDoesNotExist,MultipleObjectsReturned
+from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics
 
 
 def home(request):
@@ -21,6 +28,9 @@ def home(request):
 
 def login(request):
 	return render(request, 'login.html')
+
+def info(request):
+	return render(request, 'info.html')
 
 def signup(request):
 	# print(request.user)
@@ -100,6 +110,15 @@ def venue_detail_view(request, id):
 		messages.info(request, 'You are not logged in. Please login first to view the details of venues')
 		return redirect('login')
 
+def sport_detail_view(request, id):
+	if request.user.is_authenticated:
+		obj = get_object_or_404(add_sports, id=id)
+
+	else:
+		# raise ValidationError("You are not authorized to add a venue (Admin only activity)") 
+		messages.info(request, 'You are not logged in. Please login first to view the details of venues')
+		return redirect('login')
+
 def venue_delete_view(request, id):
 	if request.user.is_superuser:
 		obj = get_object_or_404(add_venue, id=id)
@@ -130,7 +149,7 @@ def event_cat_create_view(request):
 		messages.info(request, 'You are not authorized to add an event category! (Admin only activity)')
 		return redirect('home')
 
-
+@csrf_exempt
 def sport_create_view(request):
 	if request.user.is_superuser:
 		event = sports(request.POST or None)
@@ -246,9 +265,9 @@ def venue_avail_view(request):
 					timestamp = (initial_datetime, finish_datetime)
 
 					for items in temp1:
-						if items == timestamp and temp1[items]!=0:
+						if (items == timestamp and temp1[items]!=0) or (items!=timestamp):
 							avail_venues.append(j)
-
+					avail_venues = list(set(avail_venues))
 			flag=0
 
 		else:
@@ -340,7 +359,7 @@ def user_delete_view(request):
 
 @register.filter(name='lookup')
 def lookup(value, arg):
-    return value[arg]
+	return value[arg]
 
 
 def join_event_view(request):
@@ -406,4 +425,288 @@ def joined_event_view(request):
 		messages.info(request, 'You are not logged in. Please login first to view the joined events')
 		return redirect('login')		
 	
+ 
+
+
+
+
+# #v0
+# @csrf_exempt
+# @api_view(['GET', 'POST'])
+# def UserView(request,format=None):
+
+# 	if request.method == 'GET':
+# 		users = User.objects.all()
+# 		serializer = UserSerializer(users, many=True, context={'request': request})
+# 		return Response(serializer.data,status=status.HTTP_200_OK)	
+
+# 	elif request.method == 'POST':
+# 		serializer = UserSerializer(data=request.data)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+# # #v1
+# @csrf_exempt
+# @api_view(['GET', 'POST'])
+# def VenueListView(request,format=None):
+
+	
+# 	if request.method=='GET':
+# 		if "event_date" in request.GET and "start_time" in request.GET and "end_time" in request.GET:
+# 			event_date = request.GET["event_date"]
+# 			start_time = request.GET["start_time"]
+# 			end_time = request.GET["end_time"]
+
+# 		else:
+# 			venues = add_venue.objects.all()
+# 			serializer = VenueSerializer(venues, many=True)
+# 			return Response(serializer.data,status=status.HTTP_200_OK)
+
+# 		try:
+# 			avail_venues=[]
+# 			venues = add_venue.objects.values_list('venue_name', flat=True)
+# 			# print(venues)
+
+# 			event_date_strp = datetime.datetime.strptime(event_date, '%Y-%m-%d').date()
+
+# 			# print(venues)
+# 			# print(start_time,end_time)
+
+# 			for j in venues:
+# 				venue_time = add_venue.objects.filter(venue_name=j).values('open_time','close_time')
+# 				games_count = add_venue.objects.filter(venue_name=j).values('games_total_count')
+# 				event_time = add_new_event.objects.filter(venue__venue_name__contains=j, event_date=event_date).values('start_time','end_time')
+
+# 				temp1 = find_booked_slots(j, event_date, venue_time, games_count, event_time, debug=False)
+# 				# print(temp1)
+# 				if temp1==None:
+# 					avail_venues.append(j)
+# 				else:
+# 					initial_time = datetime.datetime.strptime(start_time, '%H').time()
+# 					finish_time = datetime.datetime.strptime(end_time, '%H').time()
+
+# 					initial_datetime = datetime.datetime.combine(event_date_strp,initial_time)
+# 					finish_datetime = datetime.datetime.combine(event_date_strp,finish_time)
+
+# 					timestamp = (initial_datetime, finish_datetime)
+
+# 					for items in temp1:
+# 						if (items == timestamp and temp1[items]!=0) or (items!=timestamp):
+# 							avail_venues.append(j)
+# 					avail_venues = list(set(avail_venues))
+# 				# print(avail_venues)
+# 			query = add_venue.objects.filter(venue_name__in = avail_venues)
+# 			serializer = VenueSerializer(query, many=True)
+# 			return Response(serializer.data,status=status.HTTP_200_OK)
+
+# 		except MultipleObjectsReturned:
+# 			query = query[0]
+# 			serializer = VenueSerializer(query, many=True)
+# 			return Response(serializer.data,status=status.HTTP_200_OK)	
+
+# 	elif request.method == 'POST':
+
+# 		serializer = SportSerializer(data=request.data)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+# 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+# #v2
+# @csrf_exempt
+# @api_view(['GET', 'POST'])
+# def EventCatView(request,format=None):
+
+# 	if request.method == 'GET':
+# 		event_cat = add_event_cat.objects.all()
+# 		serializer = EventCatSerializer(event_cat, many=True)
+# 		return Response(serializer.data,status=status.HTTP_200_OK)		
+
+# 	elif request.method == 'POST':
+# 		serializer = EventCatSerializer(data=request.data)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+# 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# #v3
+# @csrf_exempt
+# @api_view(['GET', 'POST'])
+# def SportView(request,format=None):
+
+# 	if request.method == 'GET':
+# 		sports = add_sports.objects.all()
+# 		serializer = SportSerializer(sports, many=True)
+# 		return Response(serializer.data,status=status.HTTP_200_OK)	
+
+# 	elif request.method == 'POST':
+# 		serializer = SportSerializer(data=request.data)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+# 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# #v4
+# @csrf_exempt
+# @api_view(['GET', 'POST'])
+# def EventListView(request,format=None): 
+	
+# 	if request.method == 'GET':
+# 		if "event_date" in request.GET and "start_time" in request.GET and "end_time" in request.GET and "zip_code" in request.GET:
+# 			event_date = request.GET["event_date"]
+# 			start_time = request.GET["start_time"]
+# 			end_time = request.GET["end_time"]
+# 			zip_code = request.GET["zip_code"]
+
+# 		else:	
+# 			events = add_new_event.objects.all()
+# 			serializer = EventSerializer(events, many=True)
+# 			return Response(serializer.data,status=status.HTTP_200_OK)	
+
+# 		try:
+# 			query = add_new_event.objects.filter(venue__zip_code__contains=zip_code, event_date = event_date, 
+# 				start_time__gte=start_time, start_time__lte=end_time)	
+# 			serializer = EventSerializer(query, many=True)
+# 			return Response(serializer.data,status=status.HTTP_200_OK)
+
+# 		except MultipleObjectsReturned:
+# 			query = query[0]
+# 			serializer = EventSerializer(query, many=True)
+# 			return Response(serializer.data,status=status.HTTP_200_OK)	
+
+# 	elif request.method == 'POST':
+
+# 		serializer = EventSerializer(data=request.data)
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+# 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class EventCatView(generics.ListCreateAPIView):
+	queryset = add_event_cat.objects.all()
+	serializer_class = serializers.EventCatSerializer
+
+class EventCatDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = add_event_cat.objects.all()
+	serializer_class = serializers.EventCatSerializer
+
+
+class SportView(generics.ListCreateAPIView):
+	queryset = add_sports.objects.all()
+	serializer_class = serializers.SportSerializer
+
+class SportViewDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = add_sports.objects.all()
+	serializer_class = serializers.SportSerializer
+
+
+
+class VenueListView(generics.ListCreateAPIView):
+	serializer_class = serializers.VenueSerializer
+
+	def get_queryset(self):
+		"""
+		This view should return a list of all the purchases for
+		the user as determined by the username portion of the URL.
+		"""
+		queryset = add_venue.objects.all()
+		event_date = self.request.query_params.get('event_date', None)
+		start_time = self.request.query_params.get('start_time', None)
+		end_time = self.request.query_params.get('end_time', None)
+
+		if event_date is not None and start_time is not None and end_time is not None:
+			avail_venues=[]
+			venues = add_venue.objects.values_list('venue_name', flat=True)
+			# print(venues)
+
+			event_date_strp = datetime.datetime.strptime(event_date, '%Y-%m-%d').date()
+
+			# print(venues)
+			# print(start_time,end_time)
+
+			for j in venues:
+				venue_time = add_venue.objects.filter(venue_name=j).values('open_time','close_time')
+				games_count = add_venue.objects.filter(venue_name=j).values('games_total_count')
+				event_time = add_new_event.objects.filter(venue__venue_name__contains=j, event_date=event_date).values('start_time','end_time')
+
+				temp1 = find_booked_slots(j, event_date, venue_time, games_count, event_time, debug=False)
+				# print(temp1)
+				if temp1==None:
+					avail_venues.append(j)
+				else:
+					initial_time = datetime.datetime.strptime(start_time, '%H').time()
+					finish_time = datetime.datetime.strptime(end_time, '%H').time()
+
+					initial_datetime = datetime.datetime.combine(event_date_strp,initial_time)
+					finish_datetime = datetime.datetime.combine(event_date_strp,finish_time)
+
+					timestamp = (initial_datetime, finish_datetime)
+
+					for items in temp1:
+						if (items == timestamp and temp1[items]!=0) or (items!=timestamp):
+							avail_venues.append(j)
+					avail_venues = list(set(avail_venues))
+				# print(avail_venues)
+			queryset = add_venue.objects.filter(venue_name__in = avail_venues)
+		return queryset
+
+
+class EventListView(generics.ListCreateAPIView):
+	serializer_class = serializers.EventSerializer
+
+	def get_queryset(self):
+		"""
+		This view should return a list of all the purchases for
+		the user as determined by the username portion of the URL.
+		"""
+		queryset = add_new_event.objects.all()
+		event_date = self.request.query_params.get('event_date', None)
+		start_time = self.request.query_params.get('start_time', None)
+		end_time = self.request.query_params.get('end_time', None)
+		zip_code = self.request.query_params.get('zip_code', None)
+
+		if event_date is not None and start_time is not None and end_time is not None and zip_code is not None:
+			queryset = add_new_event.objects.filter(venue__zip_code__contains=zip_code, event_date = event_date, 
+					start_time__gte=start_time, start_time__lte=end_time)	
+
+		return queryset
+
+
+class EventDetailView(generics.RetrieveUpdateDestroyAPIView):
+	serializer_class = serializers.EventSerializer
+
+	def get_queryset(self):
+		"""
+		This view should return a list of all the purchases for
+		the user as determined by the username portion of the URL.
+		"""
+		queryset = add_new_event.objects.all()
+
+		return queryset
+
+
+class JoinedEventView(generics.ListCreateAPIView):
+	serializer_class = serializers.EventSerializer
+
+	def get_queryset(self):
+		"""
+		This view should return a list of all the purchases for
+		the user as determined by the username portion of the URL.
+		"""
+		pk = self.request.query_params.get('pk', None)
+		queryset = add_new_event.objects.filter(member_flag=1)
+		if pk is not None:
+			queryset = add_new_event.objects.filter(member_flag=1, user_id = pk)
+		return queryset
+
 

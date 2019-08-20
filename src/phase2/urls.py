@@ -23,11 +23,17 @@ from django.conf import settings
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-    path('', include('psevents.urls')),
+    path('api/v1/', include('psevents.urls')),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
     url(r'^signup/$', main_views.signup, name='signup'),
     url(r'^$', main_views.home, name='home'),
+    url(r'info', main_views.info, name='info'),
+    # url(r'^api/v0/$', main_views.UserView, name='api0'),
+    # url(r'^api/v1/$', main_views.VenueListView, name='api1'),
+    # url(r'^api/v2/$', main_views.EventCatView, name='api2'),
+    # url(r'^api/v3/$', main_views.SportView, name='api3'),
+    # url(r'^api/v4/$', main_views.EventListView, name='api4'),
     path('list/', main_views.venue_list_view, name='venue-list'),
     path('create/', main_views.venue_create_view, name='venue-create'),
     path('<int:id>/update/', main_views.venue_update_view, name='venue-update'),

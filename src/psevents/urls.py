@@ -24,7 +24,24 @@ app_name = 'psevents'
 
 urlpatterns = [
 path('list/', venue_list_view, name='venue-list'),
-path('<int:id>/', venue_detail_view, name='venue-detail')
+path('venues/<int:id>/', venue_detail_view, name='venue-detail'),
+path('sports/<int:id>/', sport_detail_view, name='sport-detail'),
+path('venues/<int:id>/', venue_detail_view, name='venue-detail'),
+path('ecv', EventCatView.as_view()),
+path('ecv/<int:pk>/', EventCatDetail.as_view()),
+
+path('vlv', VenueListView.as_view()),
+
+path('sv/', SportView.as_view()),
+path('sv/<int:pk>/', SportViewDetail.as_view()),
+
+path('elv/', EventListView.as_view()),
+path('elv/<int:pk>/', EventDetailView.as_view()),
+
+path('jev', JoinedEventView.as_view()),
+
+path('rest-auth/', include('rest_auth.urls')),
+
     
 ]
 

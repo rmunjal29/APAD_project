@@ -58,7 +58,7 @@ class add_new_event(models.Model):
 	event_date = models.CharField(max_length=100)
 	start_time = models.CharField(max_length=100)
 	end_time = models.CharField(max_length=100)
-	user_id = models.ForeignKey(User, default=1,  on_delete=models.PROTECT)
+	user_id = models.ForeignKey(User, default=1, on_delete=models.PROTECT)
 	host_flag = models.CharField(max_length=100, default=1,null=True)
 	member_flag = models.CharField(max_length=100, default=0,null=True)
 	event_desc = models.CharField(max_length=100, null=True)
